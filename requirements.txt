@@ -1,0 +1,6 @@
+streamlit
+requests
+zxcvbn
+watchdog
+python-dotenv
+reportlab

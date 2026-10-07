@@ -1,6 +1,6 @@
 import hashlib
-import os
 import requests
+import os
 import streamlit as st
 from dotenv import load_dotenv
 
@@ -13,7 +13,7 @@ HIBP_API_KEY = os.getenv("HIBP_API_KEY")
 
 if not HIBP_API_KEY:
     try:
-        HIBP_API_KEY = st.secrets["HIBP_API_KEY"]
+        HIBP_API_KEY = st.secrets.get("HIBP_API_KEY")
     except Exception:
         HIBP_API_KEY = None
 
@@ -76,11 +76,10 @@ def check_password_breach(password):
 def check_email_breach(email):
 
     if not HIBP_API_KEY:
-
         return {
             "breached": False,
             "breaches": [],
-            "error": "HIBP_API_KEY is not configured."
+            "error": "Email breach lookup requires a valid HIBP API key."
         }
 
     try:
@@ -103,7 +102,6 @@ def check_email_breach(email):
         )
 
         if response.status_code == 404:
-
             return {
                 "breached": False,
                 "breaches": [],
@@ -111,11 +109,10 @@ def check_email_breach(email):
             }
 
         if response.status_code == 401:
-
             return {
                 "breached": False,
                 "breaches": [],
-                "error": "Invalid HIBP API key."
+                "error": "Email breach lookup requires a valid HIBP API key."
             }
 
         response.raise_for_status()

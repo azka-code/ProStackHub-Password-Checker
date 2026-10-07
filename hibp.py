@@ -1,6 +1,7 @@
 import hashlib
 import os
 import requests
+import streamlit as st
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -9,6 +10,12 @@ PASSWORD_API = "https://api.pwnedpasswords.com/range/"
 EMAIL_API = "https://haveibeenpwned.com/api/v3/breachedaccount/"
 
 HIBP_API_KEY = os.getenv("HIBP_API_KEY")
+
+if not HIBP_API_KEY:
+    try:
+        HIBP_API_KEY = st.secrets["HIBP_API_KEY"]
+    except Exception:
+        HIBP_API_KEY = None
 
 USER_AGENT = "ProStackHub-Password-Checker/1.0"
 
